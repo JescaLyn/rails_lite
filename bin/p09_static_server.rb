@@ -2,6 +2,7 @@ require 'rack'
 require_relative '../lib/controller_base'
 require_relative '../lib/router'
 require_relative '../lib/static'
+require_relative "../lib/show_exceptions"
 
 class MyController < ControllerBase
   def go
@@ -22,6 +23,7 @@ app = Proc.new do |env|
 end
 
 app = Rack::Builder.new do
+  use ShowExceptions
   use Static
   run app
 end.to_app

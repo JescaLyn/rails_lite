@@ -1,3 +1,5 @@
+require_relative "./static.rb"
+
 class Route
   attr_reader :pattern, :http_method, :controller_class, :action_name
 
@@ -10,11 +12,7 @@ class Route
 
   # checks if pattern matches path and method matches request method
   def matches?(req)
-    if @pattern =~ req.path && @http_method.to_s == req.request_method.downcase
-      true
-    else
-      false
-    end
+    @pattern =~ req.path && @http_method.to_s == req.request_method.downcase
   end
 
   # use pattern to pull out route params (save for later?)
@@ -67,7 +65,7 @@ class Router
   def run(req, res)
     route = match(req)
     if route
-      match(req).run(req, res)
+      route.run(req, res)
     else
       res.status = 404
       res.write("Could not find that route")

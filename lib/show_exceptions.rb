@@ -20,6 +20,12 @@ class ShowExceptions
 
   def render_exception(e)
     path = File.expand_path("./lib/templates/rescue.html.erb")
+    error = e.backtrace.first.split(":")
+    error_line_no = error[1].to_i
+    error_path = File.expand_path(error[0])
+    error_lines = File.readlines(error_path)
+    source_code = error_lines[(error_line_no - 3)..(error_line_no + 2)]
+
     ERB.new(File.read(path)).result(binding)
   end
 end

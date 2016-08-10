@@ -1,6 +1,7 @@
 
 require 'static'
 require 'rack'
+require 'byebug'
 
 class DummyApp
   def call(env)

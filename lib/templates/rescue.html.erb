@@ -1,4 +1,15 @@
 <h1><%= e.message %></h1>
 
+<h3>Source Code</h3>
+<% source_code.each_with_index do |line, idx| %>
+  <% if idx == 2 %>
+    <div><b><%= line %></b></div>
+  <% else %>
+    <div><%= line %></div>
+  <% end %>
+<% end %>
+
 <h3>Stack Trace</h3>
-<%= e.backtrace %>
+<% e.backtrace.each do |stack| %>
+  <div><%= stack %></div>
+<% end %>
