@@ -2,6 +2,7 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'erb'
 require_relative './session'
+require_relative './flash'
 require 'active_support/inflector'
 
 class ControllerBase
@@ -25,6 +26,7 @@ class ControllerBase
     @res.status = 302
     @res['Location'] = url
     session.store_session(@res)
+    flash.store_flash(@res)
     @already_built_response = true
   end
 
@@ -36,6 +38,7 @@ class ControllerBase
     @res['Content-Type'] = content_type
     @res.write(content)
     session.store_session(@res)
+    flash.store_flash(@res)
     @already_built_response = true
   end
 
@@ -56,5 +59,9 @@ class ControllerBase
   def invoke_action(name)
     self.send(name)
     render (name) unless @already_built_response
+  end
+
+  def flash
+    @flash ||= Flash.new(@req)
   end
 end
